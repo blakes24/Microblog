@@ -1,13 +1,15 @@
-import { Container, Button, ButtonGroup } from 'react-bootstrap';
-import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import PostContext from './PostContext';
-import PostForm from './PostForm';
+import { Container, Button, ButtonGroup } from "react-bootstrap";
+import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useContext, useState } from "react";
+import PostContext from "./PostContext";
+import PostForm from "./PostForm";
+import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 function Post({ remove }) {
   const { postId } = useParams();
   const history = useHistory();
-  const [ editing, setEditing ] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const { posts } = useContext(PostContext);
   const post = posts[postId];
@@ -15,15 +17,20 @@ function Post({ remove }) {
 
   const handleRemove = () => {
     remove(postId);
-    history.push('/');
+    history.push("/");
   };
   return (
     <Container>
       {editing ? (
-        <PostForm title={post.title} description={post.description} body={post.body} id={postId} />
+        <PostForm
+          title={post.title}
+          description={post.description}
+          body={post.body}
+          id={postId}
+        />
       ) : (
-        <div>
-          <ButtonGroup>
+        <>
+          <ButtonGroup className="">
             <Button variant="primary" onClick={() => setEditing(true)}>
               Edit
             </Button>
@@ -33,13 +40,16 @@ function Post({ remove }) {
           </ButtonGroup>
 
           <article>
-            <h1>{post.title}</h1>
-            <h2>
+            <h2>{post.title}</h2>
+            <p>
               <i>{post.description}</i>
-            </h2>
+            </p>
             <p>{post.body}</p>
           </article>
-        </div>
+          <hr />
+          <Comments comments={post.comments} />
+          <CommentForm />
+        </>
       )}
     </Container>
   );

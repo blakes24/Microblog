@@ -11,7 +11,7 @@ function PostList() {
     <Container>
       {postList.length > 0 ? (
         postList.map((id) => (
-          <Card>
+          <Card key={id}>
             <Card.Title className="ml-4 mt-3">
               <Link to={`/${id}`}>{posts[id].title}</Link>
             </Card.Title>

@@ -18,7 +18,6 @@ function PostForm({ title = '', description = '', body = '', id = null }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(id, 'id');
     id ? editPost(id, formData) : addPost(formData);
     history.push('/');
   };
