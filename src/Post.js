@@ -1,22 +1,24 @@
 import { Container, Button, ButtonGroup } from "react-bootstrap";
 import { useHistory, useParams, Redirect } from "react-router-dom";
-import { useContext, useState } from "react";
-import PostContext from "./PostContext";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
+import { deletePost } from "./actions";
 
-function Post({ remove }) {
+function Post() {
   const { postId } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
 
-  const { posts } = useContext(PostContext);
+  const posts = useSelector((st) => st.posts);
   const post = posts[postId];
   if (!post) return <Redirect to="/" />;
 
   const handleRemove = () => {
-    remove(postId);
+    dispatch(deletePost(postId));
     history.push("/");
   };
   return (
@@ -27,10 +29,11 @@ function Post({ remove }) {
           description={post.description}
           body={post.body}
           id={postId}
+          comments={post.comments}
         />
       ) : (
         <>
-          <ButtonGroup className="">
+          <ButtonGroup className="float-right" size="sm">
             <Button variant="primary" onClick={() => setEditing(true)}>
               Edit
             </Button>
@@ -47,8 +50,8 @@ function Post({ remove }) {
             <p>{post.body}</p>
           </article>
           <hr />
-          <Comments comments={post.comments} />
-          <CommentForm />
+          <Comments comments={post.comments} postId={postId} />
+          <CommentForm postId={postId} />
         </>
       )}
     </Container>

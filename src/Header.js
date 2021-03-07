@@ -1,5 +1,5 @@
-import { Jumbotron, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Jumbotron, Container } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -8,12 +8,10 @@ function Header() {
         <header>
           <h1>Microblog</h1>
           <p>Get in the Rithm of blogging!</p>
-          <Link to="/" className="mx-2">
-            Blog
-          </Link>
-          <Link to="/new" className="mx-2">
+          <NavLink to="/">Blog</NavLink>
+          <NavLink to="/new" className="mx-3">
             Add a new post
-          </Link>
+          </NavLink>
         </header>
       </Container>
     </Jumbotron>

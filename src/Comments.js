@@ -1,20 +1,34 @@
-import { Button, Container } from 'react-bootstrap';
+import { Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { deleteComment } from "./actions";
 
-function Comments({ comments }) {
+function Comments({ comments, postId }) {
+  const dispatch = useDispatch();
+  const remove = (commentId) => dispatch(deleteComment(postId, commentId));
   return (
-    <Container>
+    <>
       <h3>Comments</h3>
       {comments ? (
         comments.map((comment) => (
-          <div key={comment.div}>
-            <Button>X</Button>
-            <p>{comment.text}</p>
-          </div>
+          <Row key={comment.id} className="m-2">
+            <button
+              onClick={() => remove(comment.id)}
+              type="button"
+              class="close"
+              aria-label="Close"
+            >
+              <span aria-hidden="true" className="text-danger">
+                &times;
+              </span>
+            </button>
+
+            <span>{comment.text}</span>
+          </Row>
         ))
       ) : (
         <p>No comments yet.</p>
       )}
-    </Container>
+    </>
   );
 }
 

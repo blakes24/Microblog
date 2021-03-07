@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import Header from './Header';
-import NewPost from './NewPost';
-import Post from './Post';
-import Home from './Home';
-import PostContext from './PostContext';
-import { nanoid } from 'nanoid';
+import { useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import Header from "./Header";
+import NewPost from "./NewPost";
+import Post from "./Post";
+import Home from "./Home";
+import PostContext from "./PostContext";
+import { nanoid } from "nanoid";
 
 function Routes() {
-  const [ posts, setPosts ] = useState({});
+  const [posts, setPosts] = useState({});
 
   function addPost(data) {
     let id = nanoid();
-    setPosts({ ...posts, [id]: { ...data } });
+    setPosts({ ...posts, [id]: data });
   }
 
   function removePost(id) {
@@ -22,31 +22,27 @@ function Routes() {
   }
 
   function editPost(id, data) {
-    // let filteredPosts = { ...posts };
-    // filteredPosts[id] = data;
     setPosts({ ...posts, [id]: data });
   }
 
   return (
-    <BrowserRouter>
-      <PostContext.Provider value={{ posts, addPost, editPost }}>
-        <Header />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/new">
-            <NewPost />
-          </Route>
-          <Route exact path="/:postId">
-            <Post remove={removePost} />
-          </Route>
-          <Route>
-            <p>Page not found.</p>
-          </Route>
-        </Switch>
-      </PostContext.Provider>
-    </BrowserRouter>
+    <PostContext.Provider value={{ posts, addPost, editPost }}>
+      <Header />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/new">
+          <NewPost />
+        </Route>
+        <Route exact path="/:postId">
+          <Post remove={removePost} />
+        </Route>
+        <Route>
+          <p>Page not found.</p>
+        </Route>
+      </Switch>
+    </PostContext.Provider>
   );
 }
 

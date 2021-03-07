@@ -1,14 +1,13 @@
-import { Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import PostContext from './PostContext';
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function PostList() {
-  const { posts } = useContext(PostContext);
+  const posts = useSelector((st) => st.posts);
   const postList = Object.keys(posts);
 
   return (
-    <Container>
+    <>
       {postList.length > 0 ? (
         postList.map((id) => (
           <Card key={id}>
@@ -21,7 +20,7 @@ function PostList() {
       ) : (
         <p>No posts yet.</p>
       )}
-    </Container>
+    </>
   );
 }
 

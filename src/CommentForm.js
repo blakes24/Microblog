@@ -1,22 +1,24 @@
-import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { addComment } from "./actions";
+import { nanoid } from "nanoid";
 
-function CommentForm() {
-  const [ formData, setFormData ] = useState({ text: '' });
-
-  // const { addPost, editPost } = useContext(PostContext);
+function CommentForm({ postId }) {
+  const [formData, setFormData] = useState({ text: "" });
+  const dispatch = useDispatch();
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((formData) => ({
       ...formData,
-      [name] : value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // addComment(formData)
+    dispatch(addComment(postId, { ...formData, id: nanoid() }));
   };
 
   return (
