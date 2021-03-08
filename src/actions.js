@@ -6,6 +6,7 @@ import {
   DELETE_POST,
   LOAD_TITLES,
   SET_LOADING,
+  VOTE,
 } from "./actionTypes";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000/api";
@@ -38,6 +39,13 @@ export function deleteComment(postId, commentId) {
   };
 }
 
+export function vote(id, votes) {
+  return {
+    type: VOTE,
+    payload: { id, votes },
+  };
+}
+
 export function loadTitles(titles) {
   return {
     type: LOAD_TITLES,
@@ -52,52 +60,102 @@ export function loadingData(isLoading) {
   };
 }
 
+function handleError(error) {
+  return {
+    type: "ERROR",
+    error,
+  };
+}
+
 export function getTitlesFromAPI() {
   return async function (dispatch) {
-    let res = await axios.get(`${BASE_URL}/posts`);
-    dispatch(loadTitles(res.data));
+    try {
+      let res = await axios.get(`${BASE_URL}/posts`);
+      dispatch(loadTitles(res.data));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
   };
 }
 
 export function getPostFromAPI(postId) {
   return async function (dispatch) {
     dispatch(loadingData(true));
-    let res = await axios.get(`${BASE_URL}/posts/${postId}`);
-    dispatch(addPost(res.data));
+    try {
+      let res = await axios.get(`${BASE_URL}/posts/${postId}`);
+      dispatch(addPost(res.data));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
     dispatch(loadingData(false));
   };
 }
 
 export function addPostToAPI(post) {
   return async function (dispatch) {
-    let res = await axios.post(`${BASE_URL}/posts`, post);
-    dispatch(addPost(res.data));
+    try {
+      let res = await axios.post(`${BASE_URL}/posts`, post);
+      dispatch(addPost(res.data));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
   };
 }
 
 export function updatePostAPI(postId, data) {
   return async function (dispatch) {
-    let res = await axios.put(`${BASE_URL}/posts/${postId}`, data);
-    dispatch(addPost(res.data));
+    try {
+      let res = await axios.put(`${BASE_URL}/posts/${postId}`, data);
+      dispatch(addPost(res.data));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
   };
 }
 
 export function deletePostAPI(postId) {
   return async function (dispatch) {
-    await axios.put(`${BASE_URL}/posts/${postId}`);
-    dispatch(deletePost(postId));
+    try {
+      await axios.put(`${BASE_URL}/posts/${postId}`);
+      dispatch(deletePost(postId));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
   };
 }
 
 export function addCommentToAPI(postId, text) {
   return async function (dispatch) {
-    let res = await axios.post(`${BASE_URL}/posts/${postId}/comments`, text);
-    dispatch(addComment(postId, res.data));
+    try {
+      let res = await axios.post(`${BASE_URL}/posts/${postId}/comments`, text);
+      dispatch(addComment(postId, res.data));
+    } catch (error) {
+      dispatch(handleError(error));
+      console.log(error);
+    }
   };
 }
+
 export function deleteCommentAPI(postId, commentId) {
   return async function (dispatch) {
-    await axios.delete(`${BASE_URL}/posts/${postId}/comments/${commentId}`);
-    dispatch(deleteComment(postId, commentId));
+    try {
+      await axios.delete(`${BASE_URL}/posts/${postId}/comments/${commentId}`);
+      dispatch(deleteComment(postId, commentId));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
+  };
+}
+
+export function voteAPI(postId, direction) {
+  return async function (dispatch) {
+    try {
+      let res = await axios.post(
+        `${BASE_URL}/posts/${postId}/vote/${direction}`
+      );
+      dispatch(vote(postId, res.data.votes));
+    } catch (error) {
+      dispatch(handleError(error.response.data));
+    }
   };
 }

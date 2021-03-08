@@ -1,4 +1,4 @@
-const INITIAL_STATE = { posts: {}, titles: [], loading: false };
+const INITIAL_STATE = { posts: {}, titles: [], loading: false, error: false };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -37,6 +37,25 @@ function rootReducer(state = INITIAL_STATE, action) {
         },
       };
 
+    case "VOTE":
+      const updatedTitles = state.titles.map((title) => {
+        if (title.id === action.payload.id) {
+          title.votes = action.payload.votes;
+        }
+        return title;
+      });
+      if (!state.posts[action.payload.id]) {
+        return { ...state, titles: updatedTitles };
+      }
+      // if post has been loaded update its vote count
+      const votedPost = { ...state.posts[action.payload.id] };
+      votedPost.votes = action.payload.votes;
+      return {
+        ...state,
+        titles: updatedTitles,
+        posts: { ...state.posts, [action.payload.id]: votedPost },
+      };
+
     case "LOAD_TITLES":
       return {
         ...state,
@@ -48,6 +67,9 @@ function rootReducer(state = INITIAL_STATE, action) {
         ...state,
         loading: action.payload,
       };
+
+    case "ERROR":
+      return { ...state, error: true };
 
     default:
       return state;

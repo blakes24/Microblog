@@ -14,14 +14,13 @@ function Comments({ comments, postId }) {
             <button
               onClick={() => remove(comment.id)}
               type="button"
-              className="close"
+              className="close mr-2"
               aria-label="Close"
             >
               <span aria-hidden="true" className="text-danger">
                 &times;
               </span>
             </button>
-
             <span>{comment.text}</span>
           </Row>
         ))
