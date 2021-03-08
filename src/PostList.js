@@ -1,20 +1,27 @@
+import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getTitlesFromAPI } from "./actions";
 
 function PostList() {
-  const posts = useSelector((st) => st.posts);
-  const postList = Object.keys(posts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTitlesFromAPI());
+  }, [dispatch]);
+
+  const posts = useSelector((st) => st.titles);
 
   return (
     <>
-      {postList.length > 0 ? (
-        postList.map((id) => (
-          <Card key={id}>
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <Card key={post.id}>
             <Card.Title className="ml-4 mt-3">
-              <Link to={`/${id}`}>{posts[id].title}</Link>
+              <Link to={`/${post.id}`}>{post.title}</Link>
             </Card.Title>
-            <Card.Body className="pt-0">{posts[id].description}</Card.Body>
+            <Card.Body className="pt-0">{post.description}</Card.Body>
           </Card>
         ))
       ) : (

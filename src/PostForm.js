@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { nanoid } from "nanoid";
-import { addPost } from "./actions";
+import { addPostToAPI, updatePostAPI } from "./actions";
 import { useDispatch } from "react-redux";
 
-function PostForm({
-  title = "",
-  description = "",
-  body = "",
-  id = null,
-  comments = [],
-}) {
+function PostForm({ title = "", description = "", body = "", id = null }) {
   const [formData, setFormData] = useState({ title, description, body });
   const history = useHistory();
   const dispatch = useDispatch();
@@ -26,8 +19,9 @@ function PostForm({
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const post = { ...formData, comments };
-    id ? dispatch(addPost(post, id)) : dispatch(addPost(post, nanoid()));
+    id
+      ? dispatch(updatePostAPI(id, formData))
+      : dispatch(addPostToAPI(formData));
     history.push("/");
   };
 

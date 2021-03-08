@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { addComment } from "./actions";
-import { nanoid } from "nanoid";
+import { addCommentToAPI } from "./actions";
 
 function CommentForm({ postId }) {
   const [formData, setFormData] = useState({ text: "" });
@@ -18,7 +17,8 @@ function CommentForm({ postId }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(addComment(postId, { ...formData, id: nanoid() }));
+    dispatch(addCommentToAPI(postId, formData));
+    formData.text = "";
   };
 
   return (

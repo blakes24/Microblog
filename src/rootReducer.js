@@ -1,13 +1,11 @@
-const INITIAL_STATE = { posts: {} };
+const INITIAL_STATE = { posts: {}, titles: [], loading: false };
 
 function rootReducer(state = INITIAL_STATE, action) {
-  console.log(action);
   switch (action.type) {
     case "ADD_POST":
-      console.log(action.payload);
       return {
         ...state,
-        posts: { ...state.posts, [action.payload.id]: action.payload.post },
+        posts: { ...state.posts, [action.payload.id]: action.payload },
       };
 
     case "DELETE_POST":
@@ -37,6 +35,18 @@ function rootReducer(state = INITIAL_STATE, action) {
           ...state.posts,
           [action.payload.postId]: { ...postCopy, comments: filteredComments },
         },
+      };
+
+    case "LOAD_TITLES":
+      return {
+        ...state,
+        titles: action.payload,
+      };
+
+    case "SET_LOADING":
+      return {
+        ...state,
+        loading: action.payload,
       };
 
     default:

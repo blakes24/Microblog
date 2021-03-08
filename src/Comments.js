@@ -1,10 +1,10 @@
 import { Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteComment } from "./actions";
+import { deleteCommentAPI } from "./actions";
 
 function Comments({ comments, postId }) {
   const dispatch = useDispatch();
-  const remove = (commentId) => dispatch(deleteComment(postId, commentId));
+  const remove = (commentId) => dispatch(deleteCommentAPI(postId, commentId));
   return (
     <>
       <h3>Comments</h3>
@@ -14,7 +14,7 @@ function Comments({ comments, postId }) {
             <button
               onClick={() => remove(comment.id)}
               type="button"
-              class="close"
+              className="close"
               aria-label="Close"
             >
               <span aria-hidden="true" className="text-danger">
