@@ -8,6 +8,7 @@ import Votes from "./Votes";
 function PostList() {
   const dispatch = useDispatch();
   const error = useSelector((st) => st.error);
+  const loading = useSelector((st) => st.loading);
 
   useEffect(() => {
     dispatch(getTitlesFromAPI());
@@ -24,6 +25,7 @@ function PostList() {
 
   return (
     <>
+      {loading && <h2>Loading...</h2>}
       {posts.length > 0 ? (
         posts.map((post) => (
           <Card key={post.id}>
