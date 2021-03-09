@@ -1,11 +1,11 @@
 import { Container, Button, Row } from "react-bootstrap";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
-import { deletePostAPI, getPostFromAPI } from "./actions";
+import { deletePostAPI, getPostFromAPI } from "./actions/postActions";
 import Votes from "./Votes";
 
 function Post() {
@@ -24,11 +24,12 @@ function Post() {
   }, [dispatch, postId, post]);
 
   // redirect if post doesn't exist
-  if (!titles.find((post) => post.id === +postId)) return <Redirect to="/" />;
+  if (!titles.find((post) => post.id === +postId))
+    return <h2>Page not found.</h2>;
 
   if (error) {
-    console.error(error);
-    return <h1>Something bad happened. Please try again later...</h1>;
+    console.log(error);
+    return <h2>Cannot load post. Please try again later...</h2>;
   }
 
   const handleRemove = () => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { addPostToAPI, updatePostAPI } from "./actions";
+import { addPostToAPI, updatePostAPI } from "./actions/postActions";
 import { useDispatch } from "react-redux";
 
 function PostForm({ title = "", description = "", body = "", id = null }) {

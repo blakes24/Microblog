@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { voteAPI } from "./actions";
+import { voteAPI } from "./actions/commonActions";
 
 function Votes({ votes, id }) {
   const dispatch = useDispatch();

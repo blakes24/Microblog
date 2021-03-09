@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getTitlesFromAPI } from "./actions";
+import { getTitlesFromAPI } from "./actions/titleActions";
 import Votes from "./Votes";
 
 function PostList() {
@@ -20,7 +20,7 @@ function PostList() {
   posts.sort((a, b) => b.votes - a.votes);
 
   if (error) {
-    return <h2>Something bad happened. Please try again later...</h2>;
+    return <h2>Cannot load posts. Please try again later...</h2>;
   }
 
   return (

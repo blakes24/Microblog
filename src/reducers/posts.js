@@ -5,6 +5,10 @@ export function posts(state = INITIAL_STATE, action) {
     case "ADD_POST":
       return { ...state, [action.payload.id]: action.payload };
 
+    case "UPDATE_POST":
+      const comments = [...state[action.payload.id].comments];
+      return { ...state, [action.payload.id]: { ...action.payload, comments } };
+
     case "DELETE_POST":
       const posts = { ...state };
       delete posts[action.payload];

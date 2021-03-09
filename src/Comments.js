@@ -1,6 +1,6 @@
 import { Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteCommentAPI } from "./actions";
+import { deleteCommentAPI } from "./actions/postActions";
 
 function Comments({ comments, postId }) {
   const dispatch = useDispatch();
